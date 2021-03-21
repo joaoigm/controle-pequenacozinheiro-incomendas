@@ -1,0 +1,105 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit($event)">
+
+<div class="form-group">
+  <label>Cliente</label>
+  <input type="text" class="form-control" formControlName="cliente">
+
+</div>
+<div class="form-row">
+  <div class="form-group col-6">
+    <label>Data do Pedido</label>
+
+    <input type="date" class="form-control" formControlName="dataPedido">
+
+  </div>
+  <div class="form-group col-6">
+    <label>Data entrega</label>
+
+    <input type="date" class="form-control" formControlName="dataEntrega">
+
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-check form-group">
+    <input class="form-check-input" type="radio" id="entregaRetirada1" value="entrega" formControlName="entregaRetirada">
+    <label class="form-check-label" for="entregaRetirada1">
+      Entrega (+ R$5)
+    </label>
+  </div>
+  <div class="form-check ml-5 form-group">
+    <input class="form-check-input" type="radio" id="entregaRetirada2" value="retirada" formControlName="entregaRetirada">
+    <label class="form-check-label" for="entregaRetirada2">
+      Retirada
+    </label>
+  </div>
+</div>
+
+<div class="form-group" [hidden]="!eEntrega">
+  <label>Endereço entrega</label>
+  <input type="text" class="form-control" formControlName="enderecoEntrega">
+</div>
+<div class="form-row">
+  <div class=" form-group col-6">
+    <label for="">Pedido</label>
+    <select class="custom-select" id="validatedInputGroupSelect" required formControlName="pedido">
+      <option value="">Escolha...</option>
+      <option value="Bombom 4 unidade">Bombom 4 unidade</option>
+      <option value="Bombom 24 unidades">Bombom 24 unidades</option>
+      <option value="Trufa 4 unidades">Trufa 4 unidades</option>
+      <option value="Trufa 6 unidades">Trufa 6 unidades</option>
+      <option value="Trufa 10 unidades">Trufa 10 unidades</option>
+      <option value="Ovo de colher 150gr">Ovo de colher 150gr</option>
+      <option value="Ovo de colher 250gr">Ovo de colher 250gr</option>
+      <option value="Ovo de colher 350gr">Ovo de colher 350gr</option>
+      <option value="Ovo de colher 500gr">Ovo de colher 500gr</option>
+      <option value="Ovo trufado 150gr">Ovo trufado 150gr</option>
+      <option value="Ovo trufado 250gr">Ovo trufado 250gr</option>
+      <option value="Ovo trufado 350gr">Ovo trufado 350gr</option>
+      <option value="Ovo trufado 500gr">Ovo trufado 500gr</option>
+      <option value="Ovo simples 150gr">Ovo simples 150gr</option>
+      <option value="Ovo simples 250gr">Ovo simples 250gr</option>
+      <option value="Ovo simples 350gr">Ovo simples 350gr</option>
+      <option value="Ovo simples 500gr">Ovo simples 500gr</option>
+    </select>
+  </div>
+  <div class="col-6 form-group">
+    <label for="">Observações</label>
+    <input type="text" class="form-control" formControlName="obs">
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-check form-group">
+    <input class="form-check-input" type="radio" id="recheioSimples" value="simples" checked formControlName="recheio">
+    <label class="form-check-label" for="recheioSimples">
+      Recheio simples
+    </label>
+  </div>
+  <div class="form-check ml-5 form-group">
+    <input class="form-check-input" type="radio" id="recheioEspecial" value="especial" formControlName="recheio">
+    <label class="form-check-label" for="recheioEspecial">
+      Recheio especial
+    </label>
+  </div>
+</div>
+<div class="form-group">
+  <label>Total</label>
+
+  <input currencyMask class="form-control" formControlName="total">
+</div>
+<div class="form-group">
+  <label>Metodo pagamento</label>
+
+  <input type="text" class="form-control" formControlName="metodoPagamento">
+
+</div>
+<div class="form-group">
+  <label>Status pagamento</label>
+
+  <select class="custom-select" id="validatedInputGroupSelect" required formControlName="statusPagamento">
+    <option value="pendente">Pendente</option>
+    <option value="pago">Pago</option>
+  </select>
+
+</div>
+<button type="submit" class="btn btn-success">Salvar</button>
+</form>

@@ -1,0 +1,24 @@
+<div class="table-responsive-md"></div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Cliente</th>
+      <th>Data Entrega</th>
+      <th>Status pagamento</th>
+      <th>Tipo entrega</th>
+      <th>Pedido</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let pedido of $pedidos | async">
+      <td>{{pedido.cliente}}</td>
+      <td>{{pedido.dataEntrega}}</td>
+      <td>{{pedido.statusPagamento}}</td>
+      <td>{{pedido.entregaRetirada}}</td>
+      <td>{{pedido.pedido}}</td>
+      <td>
+        <a class="btn btn-primary" [routerLink]="[pedido.id]">EDITAR</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
