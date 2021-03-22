@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Pedido } from '../pedido';
 
 @Component({
   selector: 'app-pedidos',
@@ -11,41 +12,39 @@ import { Router } from '@angular/router';
 export class PedidosComponent implements OnInit {
 
 
-  pedidosForm: FormGroup;
   constructor(
-    private builder: FormBuilder,
     private http: HttpClient,
     private router: Router,
     @Inject('BASE_URL') private  baseUrl: string
   ) { }
 
   ngOnInit() {
-    this.pedidosForm = this.builder.group({
-      cliente: this.builder.control('',[ Validators.required]),
-      dataPedido: this.builder.control('', [Validators.required]),
-      dataEntrega: this.builder.control('', [Validators.required]),
-      entregaRetirada: this.builder.control('entrega',[Validators.required]),
-      enderecoEntrega: this.builder.control(''),
-      pedido: this.builder.control('',[Validators.required]),
-      obs: this.builder.control(''),
-      recheio: this.builder.control('simples', [Validators.required]),
-      total: this.builder.control(0.0, [Validators.required]),
-      metodoPagamento: this.builder.control('', [Validators.required]),
-      statusPagamento: this.builder.control('pendente', [Validators.required])
-    });
+
   }
 
-  onSubmit(event): void {
-    console.log(event.value);
-    console.log(this.pedidosForm.value);
-    // if (this.pedidosForm.valid) {
+  onSubmit(event: FormGroup): void {
+     if (event.valid) {
 
-    //   this.http.post(this.baseUrl + "api/pedidos", this.pedidosForm.value).subscribe(
-    //     data => {
-    //       this.router.navigate(['pedidos']);
-    //     }
-    //   );
-    // }
+       var formValue: Pedido = event.value;
+       this.http.post(this.baseUrl + "api/pedidos", {
+         cliente: formValue.cliente.toUpperCase(),
+         dataPedido: formValue.dataPedido.toUpperCase(),
+         dataEntrega: formValue.dataEntrega.toUpperCase(),
+         entregaRetirada: formValue.entregaRetirada,
+         enderecoEntrega: formValue.enderecoEntrega,
+         pedido: formValue.pedido,
+         obs: formValue.obs.toUpperCase(),
+         recheio: formValue.recheio.toUpperCase(),
+         metodoPagamento: formValue.metodoPagamento.toUpperCase(),
+         statusPagamento: formValue.statusPagamento.toUpperCase(),
+         total: formValue.total,
+         pendencias: formValue.pendencias
+       }).subscribe(
+         _ => {
+           this.router.navigate(['pedidos']);
+         }
+       );
+     }
   }
 
 

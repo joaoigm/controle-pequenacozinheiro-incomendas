@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,33 +28,36 @@ namespace Web.Controllers
         }
         // GET: api/<PedidosController>
         [HttpGet]
-        public IEnumerable<Pedido> Get()
+        public IEnumerable<PedidoViewModel> Get()
         {
-            return _pedidos.Find(pedido => true).ToList();
+            return _pedidos.Find(pedido => true).ToList().OrderBy(p => p.dataEntrega).Select(p => new PedidoViewModel(p));
         }
 
         // GET api/<PedidosController>/5
         [HttpGet("{id}")]
-        public Pedido Get(string id)
+        public async Task<PedidoViewModel> Get(string id)
         {
-            return _pedidos.Find(p => p.Id == id).FirstOrDefault();
+            return new PedidoViewModel(await _pedidos.Find(p => p.Id == id).FirstOrDefaultAsync());
         }
 
         // POST api/<PedidosController>
         [HttpPost]
-        public async Task<Pedido> Post([FromBody] Pedido value)
+        public async Task<PedidoViewModel> Post([FromBody] PedidoViewModel value)
         {
-            await _pedidos.InsertOneAsync(value);
-            return value;
+
+            var pedido = new Pedido(value);
+            await _pedidos.InsertOneAsync(pedido);
+            return new PedidoViewModel(pedido);
         }
 
         // PUT api/<PedidosController>/5
         [HttpPut("{id}")]
-        public async Task<Pedido> Put(string id, [FromBody] Pedido value)
+        public async Task<PedidoViewModel> Put(string id, [FromBody] PedidoViewModel value)
         {
-            value.Id = id;
-            await _pedidos.ReplaceOneAsync(p => p.Id == id, value);
-            return value;
+            var pedido = new Pedido(value);
+
+            await _pedidos.ReplaceOneAsync(p => p.Id == id, pedido);
+            return new PedidoViewModel(pedido);
         }
 
         // DELETE api/<PedidosController>/5

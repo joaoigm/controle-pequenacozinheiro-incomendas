@@ -1,3 +1,5 @@
 
-  <app-form-pedido [formGroup]="pedidosForm" (submitExecuted)="onSubmit($event)"></app-form-pedido>
+<ng-container *ngIf="pedido !== undefined">
+  <app-form-pedido [pedidoValue]="pedido" (submitExecuted)="onSubmit($event)"></app-form-pedido>
+</ng-container>
 

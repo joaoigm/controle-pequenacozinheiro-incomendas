@@ -1,24 +1,82 @@
-<div class="table-responsive-md"></div>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Cliente</th>
-      <th>Data Entrega</th>
-      <th>Status pagamento</th>
-      <th>Tipo entrega</th>
-      <th>Pedido</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let pedido of $pedidos | async">
-      <td>{{pedido.cliente}}</td>
-      <td>{{pedido.dataEntrega}}</td>
-      <td>{{pedido.statusPagamento}}</td>
-      <td>{{pedido.entregaRetirada}}</td>
-      <td>{{pedido.pedido}}</td>
-      <td>
-        <a class="btn btn-primary" [routerLink]="[pedido.id]">EDITAR</a>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="table-responsive-md">
+  <div class="row col-6">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Valor Total de vendas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ getTotal() | currency }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="pedidos-tab" data-toggle="tab" href="#pedidos" role="tab" aria-controls="pedidos"
+      aria-selected="true">Pedidos</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="pendencias-tab" data-toggle="tab" href="#pendencias" role="tab" aria-controls="pendencias"
+      aria-selected="false">Pendencias</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="pedidos" role="tabpanel" aria-labelledby="pedidos-tab">
+    <div class="table-responsive-lg">
+      <div class="row col-12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Data Entrega</th>
+              <th>Pedido</th>
+              <th>Valor Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let pedido of pedidos">
+              <td>{{pedido.cliente}}</td>
+              <td>{{pedido.dataEntrega}}</td>
+              <td>{{joinPedidosNome(pedido.pedido)}}</td>
+              <td>{{pedido.total | currency}}</td>
+              <td>
+                <a class="btn btn-primary" [routerLink]="[pedido.id]">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <button type="button" class="btn btn-danger ml-3" (click)="openConfirmDelete(pedido.id)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="pendencias" role="tabpanel" aria-labelledby="pendencias-tab">
+    <div class="table-responsive-md">
+      <div class="row col-12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Pendencias</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let pedido of pedidosComPendencia()">
+              <td>{{pedido.cliente}}</td>
+              <td>{{pedido.pendencias}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

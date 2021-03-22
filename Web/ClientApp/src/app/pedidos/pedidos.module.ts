@@ -18,8 +18,6 @@ export const customCurrencyMaskConfig = {
   suffix: "",
   thousands: ".",
   nullable: true,
-  min: null,
-  max: null,
   inputMode: CurrencyMaskInputMode.FINANCIAL
 };
 

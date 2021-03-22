@@ -1,10 +1,14 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs"
+    "module": "commonjs",
+    "experimentalDecorators": true,
   },
   "angularCompilerOptions": {
     "entryModule": "app/app.server.module#AppServerModule",
-    "enableIvy": true
+    "enableIvy": true,
+    "fullTemplateTypeCheck": true,
+    "preserveWhitespaces": true,
+    "strictTemplates": true
   }
 }
