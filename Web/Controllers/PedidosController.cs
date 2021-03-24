@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
@@ -19,9 +20,10 @@ namespace Web.Controllers
         private readonly IMongoCollection<Pedido> _pedidos;
 
         public PedidosController(
-            IPedidosDatabaseSettings settings)
+            IPedidosDatabaseSettings settings,
+            IConfiguration config)
         {
-            var client = new MongoClient(settings.ConnectionString);
+            var client = new MongoClient(config["MONGODB_CONNECTION_STRING"]);
             var database = client.GetDatabase(settings.DatabaseName);
 
             _pedidos = database.GetCollection<Pedido>(settings.PedidosCollectionName);
